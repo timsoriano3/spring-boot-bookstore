@@ -4,7 +4,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class SecurityUtils {
     public static final String ROLE_PREFIX = "ROLE_";
@@ -20,7 +19,7 @@ public class SecurityUtils {
     public static String extractAuthTokenFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTH_HEADER);
 
-        if (!StringUtils.hasLength(bearerToken) && bearerToken.startsWith(AUTH_TOKEN_PREFIX)) {
+        if (StringUtils.hasLength(bearerToken) && bearerToken.startsWith(AUTH_TOKEN_PREFIX)) {
             return bearerToken.substring(7);
         }
         return null;
