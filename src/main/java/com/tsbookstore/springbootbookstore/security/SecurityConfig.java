@@ -1,7 +1,9 @@
 package com.tsbookstore.springbootbookstore.security;
 
+import com.tsbookstore.springbootbookstore.model.Role;
 import com.tsbookstore.springbootbookstore.security.jwt.JwtAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +22,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Value("${authentication.internal-api-key}")
+    private String internalApiKey;
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
@@ -44,9 +49,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/api/authentication/**").permitAll()
+                .antMatchers("*/api/internal/**").hasRole(Role.SYSTEM_MANAGER.name())
                 .anyRequest().authenticated();
 
-        http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        //internal filter before jwt filter
+        http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(internalApiAuthenticationFilter(), JwtAuthorizationFilter.class);
+    }
+
+    @Bean
+    public InternalApiAuthenticationFilter internalApiAuthenticationFilter() {
+        return new InternalApiAuthenticationFilter(internalApiKey);
     }
 
     @Bean
