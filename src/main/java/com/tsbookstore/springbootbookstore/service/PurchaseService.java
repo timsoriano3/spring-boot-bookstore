@@ -1,6 +1,5 @@
 package com.tsbookstore.springbootbookstore.service;
 
-import com.tsbookstore.springbootbookstore.model.Book;
 import com.tsbookstore.springbootbookstore.model.PurchaseHistory;
 import com.tsbookstore.springbootbookstore.repository.IPurchaseRepository;
 import com.tsbookstore.springbootbookstore.repository.projections.IPurchaseItem;
@@ -12,8 +11,11 @@ import java.util.List;
 
 @Service
 public class PurchaseService implements IPurchaseService{
-    @Autowired
-    public IPurchaseRepository purchaseRepository;
+    private final IPurchaseRepository purchaseRepository;
+
+    public PurchaseService(IPurchaseRepository purchaseRepository) {
+        this.purchaseRepository = purchaseRepository;
+    }
 
     @Override
     public PurchaseHistory savePurchase(PurchaseHistory purchaseHistory) {

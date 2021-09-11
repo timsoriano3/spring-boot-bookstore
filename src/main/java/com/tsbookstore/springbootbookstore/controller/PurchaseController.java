@@ -21,7 +21,7 @@ public class PurchaseController {
     }
 
     @GetMapping //api/purchase-history
-    public ResponseEntity<?> findPurchasedItemsOfUser(@AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return ResponseEntity.ok(purchaseService.findPurchasedItemsOfUser(UserPrincipal.createSuperUser().getId()));
+    public ResponseEntity<?> getAllPurchasesOfUser(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        return ResponseEntity.ok(purchaseService.findPurchasedItemsOfUser(userPrincipal.getId()));
     }
 }

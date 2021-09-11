@@ -24,7 +24,7 @@ public class JwtProvider implements IJwtProvider {
     private String JWT_SECRET;
 
     @Value("${app.jwt.expiration-in-ms}")
-    private String JWT_EXPIRATION_IN_MS;
+    private Long JWT_EXPIRATION_IN_MS;
 
     @Override
     public String generateToken(UserPrincipal auth) {
