@@ -52,7 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/authentication/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/book").permitAll()
                 .antMatchers("/api/book/**").hasRole(Role.ADMIN.name())
-                .antMatchers("/api/purchase-history").permitAll()
                 .antMatchers("*/api/internal/**").hasRole(Role.SYSTEM_MANAGER.name())
                 .anyRequest().authenticated();
 
