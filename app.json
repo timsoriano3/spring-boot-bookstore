@@ -1,0 +1,8 @@
+{
+  "name": "tims-bookstore",
+  "buildpacks": [
+    {
+      "url": "heroku/gradle"
+    }
+  ]
+}
